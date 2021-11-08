@@ -6,6 +6,9 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
+import useAuth from '../../../../Hooks/useAuth';
+import { useState } from 'react';
+import Swal from 'sweetalert2'
 
 const style = {
     position: 'absolute',
@@ -21,10 +24,43 @@ const style = {
 
 const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
     const { name, time } = books;
+    const { user } = useAuth();
     const handlebook = e => {
-        alert('booked')
-        handleBookingClose()
-        e.preventDefault()
+        e.preventDefault();
+        const appoinment = {
+            ...bookingInfo,
+            time,
+            servicename: name,
+            date: date.toLocaleDateString()
+        }
+        fetch('http://localhost:5000/appointments', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(appoinment)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire(
+                        'Good!',
+                        'Appoinment Booked SuccessFully!',
+                        'success'
+                    )
+                    handleBookingClose()
+                }
+            })
+    }
+    const initilaize = { patientname: user?.displayName, email: user?.email, phone: "" }
+    const [bookingInfo, setBookingInfo] = useState(initilaize)
+    const handleOnBlur = (e) => {
+        e.preventDefault();
+        const field = e.target.name;
+        const value = e.target.value;
+        const newInfo = { ...bookingInfo }
+        newInfo[field] = value;
+        setBookingInfo(newInfo)
     }
     return (
         <Modal
@@ -60,7 +96,9 @@ const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
                                 sx={{ width: '90%', mb: 2 }}
                                 hiddenLabel
                                 id="filled-hidden-label-small"
-                                defaultValue="Your Name"
+                                onBlur={handleOnBlur}
+                                name="patientname"
+                                defaultValue={user?.displayName}
                                 variant="filled"
                                 size="small"
                             />
@@ -70,7 +108,9 @@ const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
                                 sx={{ width: '90%', mb: 2 }}
                                 hiddenLabel
                                 id="filled-hidden-label-small"
-                                defaultValue="Your Phone Number"
+                                onBlur={handleOnBlur}
+                                email="email"
+                                defaultValue={user?.email}
                                 variant="filled"
                                 size="small"
                             />
@@ -80,7 +120,9 @@ const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
                                 sx={{ width: '90%', mb: 2 }}
                                 hiddenLabel
                                 id="filled-hidden-label-small"
-                                defaultValue="Your Email"
+                                onBlur={handleOnBlur}
+                                phone="phone"
+                                placeholder="Your Phone Number"
                                 variant="filled"
                                 size="small"
                             />

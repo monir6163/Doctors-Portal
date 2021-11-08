@@ -10,7 +10,7 @@ const Exceptional = () => {
             <Container sx={{ mt: 5 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <img style={{ width: '400px', height: 'auto' }} src={treatment} alt="treatment" />
+                        <img style={{ width: '100%', height: 'auto' }} src={treatment} alt="treatment" />
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'flex-start', textAlign: 'left', alignItems: 'center' }}>
                         <Box>

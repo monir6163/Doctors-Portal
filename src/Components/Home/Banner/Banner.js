@@ -30,7 +30,7 @@ const Banner = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6} style={vertical}>
-                    <img style={{ width: '500px' }} src={chir} alt="chair" />
+                    <img style={{ width: '100%' }} src={chir} alt="chair" />
                 </Grid>
             </Grid>
         </Container >

@@ -17,7 +17,7 @@ const AppoinmentBanner = () => {
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <img style={{ width: 500, marginTop: '-115px' }} src={doctor} alt="doctor" />
+                        <img style={{ width: '100%', marginTop: '-115px' }} src={doctor} alt="doctor" />
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'flex-start', textAlign: 'left', alignItems: 'center', p: 2 }}>
                         <Box>
