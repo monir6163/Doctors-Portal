@@ -23,17 +23,18 @@ const style = {
 };
 
 const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
-    const { name, time } = books;
+    const { name, time, price } = books;
     const { user } = useAuth();
     const handlebook = e => {
         e.preventDefault();
         const appoinment = {
             ...bookingInfo,
             time,
+            price,
             servicename: name,
             date: date.toLocaleDateString()
         }
-        fetch('http://localhost:5000/appointments', {
+        fetch('https://glacial-temple-44454.herokuapp.com/appointments', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -134,6 +135,17 @@ const BookingModal = ({ openBooking, handleBookingClose, books, date }) => {
                                 hiddenLabel
                                 id="filled-hidden-label-small"
                                 defaultValue={date.toDateString()}
+                                variant="filled"
+                                size="small"
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                disabled
+                                sx={{ width: '90%', mb: 2 }}
+                                hiddenLabel
+                                id="filled-hidden-label-small"
+                                defaultValue={price}
                                 variant="filled"
                                 size="small"
                             />
